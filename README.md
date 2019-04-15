@@ -32,7 +32,7 @@ The `spotify-this-song` takes in a song title and returns search results from th
 Please use the following syntax for the spotify-this-song command: `node liri.js spotify-this-song '<song title>'`. Note that for this command, unlike concert-this, the search term will need to be wrapped in quotes. For example:
 ![Screenshot spotify-this-song command.](assets/spotify-this-song_valid-search.png "")
 
-As shown in the screenshot, LIRI returns the Artist, Title, Album, and Audio Preview for each matching search result.
+As shown in the screenshot, LIRI returns the Artist, Title, Album, and Audio Preview URL for each matching search result.
 
 ### Spotify-this-song Error Messaging 
 Sometimes the audio preview for a specific song is unavailable. To preserve the rest of the search, LIRI can handle that response and print the following message:
