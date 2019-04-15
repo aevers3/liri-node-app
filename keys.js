@@ -1,4 +1,4 @@
-console.log('this is loaded');
+console.log('Spotify keys loaded');
 
 exports.spotify = {
   id: '24e09e17aa7d435baa99b2d0a2b89c1d',

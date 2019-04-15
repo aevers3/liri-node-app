@@ -40,10 +40,19 @@ switch (command) {
 
 // Define functions to be called inside the switch statement.
 function concertThis(arg) {
+    
+    if (!process.argv[3]) {
+        console.log('');
+        console.log('##########################');
+        console.log('Please remember to include an artist to search for.');
+        console.log('');
+        process.exit();
+    }
+    
     // Store user artist input as arg variable.
     arg = process.argv.slice(3).join(' ');
-    console.log('concert data...');
-
+    console.log(`Getting Concert Info for ${arg}...`);
+    console.log('');
     // Make axios request using the constructed URL to include the user's search term.
     axios
         .get('https://rest.bandsintown.com/artists/' + arg + '/events?app_id=codingbootcamp')
@@ -100,7 +109,6 @@ function spotifyRequest(search) {
             if (response.tracks.items.length < 1) {
                 console.log('');
                 console.log('##########################');
-                console.log('');
                 console.log(`Sorry, we couldn't find any results for ${search}.`)
                 console.log('');
                 console.log('##########################');
@@ -110,9 +118,7 @@ function spotifyRequest(search) {
 
             // Iterate through 'items' object and log info.
             for (i = 0; i < response.tracks.items.length; i++) {
-                console.log('');
                 console.log('##########################');
-                console.log('');
 
                 // Artist name
                 console.log(`Artist: ${response.tracks.items[i].album.artists[0].name}`);
@@ -146,17 +152,18 @@ function spotifyThisSong(str) {
     // If this function was invoked by doWhatItSays, redefine arg to be the passed in term from random.txt
     if (str) {
         arg = str;
-        console.log('str path');
+        // console.log('str path');
         spotifyRequest(arg);
         // If the user runs the spotify-this-song command with a search, we pass in that search while calling spotifyRequest
     } else if (process.argv[3]) {
-        console.log('argv path')
-        console.log('Spotify song data...');
+        // console.log('argv path')
+        console.log('Getting Song Info...');
+        console.log('');
         spotifyRequest(arg);
     } else {
         // If no search term, default to 'The Sign' by Ace of Base. 
         // Because we have a specifically defined endpoint, we use .request intstead of .search
-        console.log('Ace path')
+        // console.log('Ace path')
         spotify
             .request('https://api.spotify.com/v1/tracks/0hrBpAOgrt8RXigk83LLNE')
             .then(function (data) {
@@ -184,15 +191,16 @@ function movieThis() {
     } else {
         var arg = 'Mr. Nobody';
     }
-    console.log('Movie data...');
+    console.log('Getting Movie Info...');
+    console.log('');
+
     // Axios request to OMDB
     axios.get("http://www.omdbapi.com/?t=" + arg + "&y=&plot=short&apikey=trilogy").then(
         function (response) {
-            console.log(response.data);
+            // console.log(response.data);
             // If response returns undefined, or if IMDB score is missing display this message. 
             // (Done this way to prevent the unhandled promise messaging that occurs when a mostly empty movie object returns)
             if (response.data.Title === undefined || response.data.Year === undefined || response.data.imdbRating === 'N/A') {
-                console.log('');
                 console.log('##########################');
                 console.log('');
                 console.log('Sorry, we don\'t have any record of that movie.')
@@ -201,7 +209,6 @@ function movieThis() {
                 console.log('');
             } else {
                 // Otherwise, print response info.
-                console.log('');
                 console.log('##########################');
                 console.log(`Title: ${response.data.Title}`);
                 console.log(`Released in: ${response.data.Year}`);
@@ -219,17 +226,17 @@ function movieThis() {
 };
 
 function doWhatItSays() {
-    console.log('Doing what it says...');
+    // console.log('Doing what it says...');
     // Read contents of random.txt
     fs.readFile("random.txt", "utf8", function (error, data) {
         // Log any errors...
         if (error) {
             console.log(error);
         }
-        console.log(data);
+        // console.log(data);
         // Split data string on comma separator
         var dataArr = data.split(',');
-        console.log(dataArr[1]);
+        console.log('');
         // Call the spotifyThisSong function, passing in the song title from random.txt
         spotifyThisSong(dataArr[1]);
     });
